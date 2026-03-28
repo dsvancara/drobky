@@ -30,6 +30,8 @@ Drobky runs entirely in your browser as a Chrome extension. It:
 - Has no analytics, no telemetry, no tracking
 - Contains no AI/LLM calls — all analysis is deterministic TypeScript (optional LLM export prepares data for you to paste into your own LLM)
 
+Full privacy policy: [PRIVACY.md](PRIVACY.md)
+
 ## Install
 
 ### From Chrome Web Store
