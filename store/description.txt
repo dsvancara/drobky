@@ -1,0 +1,49 @@
+Short description (132 chars):
+Kam mizi vase drobky? Analyzujte sve objednavky z Rohlik.cz — utrata, trendy, ceny, tipy. 100% lokalne, zadna data neopousti vas PC.
+
+---
+
+Full description:
+
+Drobky z Rohliku — kam mizi vase drobky?
+
+Zajima vas, kolik utracite na Rohliku mesicne? Ktere produkty kupujete nejcasteji? Jestli ceny rostou? Drobky vam da odpovedi — a vsechno zpracuje lokalne ve vasem prohlizeci.
+
+CO DROBKY UMI:
+
+Prehled
+• Celkova utrata, pocet objednavek, prumerna velikost kosiku
+• Oblibene dny nakupu, frekvence objednavek, tempo utraty
+
+Nakupy
+• Mesicni utrata s grafem a tabulkou
+• Top 20 polozek podle utraty, nejcasteji kupovane produkty
+• Naklady na dopravu, mira nahrad (substituce)
+• Stalice vs. impulzivni nakupy
+
+Ceny
+• Cenove vykyvy — produkty s nejvetsimi rozdily mezi nakupy
+• Aktualni vs. zaplacene ceny — jak se zmenily ceny od vaseho posledniho nakupu
+• Produkty aktualne v akci — vase oblibene polozky, ktere jsou prave ve sleve
+• Osobni inflace — kolik byste dnes zaplatili za stejny kosik
+
+Kategorie
+• Utrata podle kategorii (kolacovy graf)
+• Pomer cerstvych vs. zpracovanych potravin v case
+• Pestrost nakupu — kolik ruznych produktu kupujete
+• Sezonni produkty — co kupujete jen v urcitych mesicich
+
+Tipy
+• Zdravotni postrehy (aditiva, bilkoviny, cerstve vs. zpracovane)
+• Levnejsi alternativy k vasim nejdrazsim polozkam
+• Tipy na uspory (drahe pravidelne nakupy, vernost znacce)
+
+Objednavky
+• Kompletni seznam vsech objednavek s detaily
+
+SOUKROMI:
+• Vsechna data zustavaji ve vasem prohlizeci (chrome.storage.local)
+• Zadne externi servery, zadne sledovani, zadna analyza treti stranou
+• Zdrojovy kod je otevreny na GitHubu
+
+Drobky pouziva vase prihlaseni na rohlik.cz k nacitani objednavek primo z API Rohliku. Nevyzaduje zadne dalsi ucty ani registrace.
