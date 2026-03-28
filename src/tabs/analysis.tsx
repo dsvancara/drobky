@@ -48,6 +48,7 @@ import PersonalInflationChart from "../components/PersonalInflation"
 import FreshRatioChart from "../components/FreshRatioTrend"
 import VarietyScoreChart from "../components/VarietyScore"
 import SeasonalProductsList from "../components/SeasonalProducts"
+import AiExportModal from "../components/AiExportModal"
 
 const TABS = [
   { id: "prehled", label: "Přehled" },
@@ -63,6 +64,7 @@ function AnalysisPage() {
   const [enrichment, setEnrichment] = useState<EnrichmentData | undefined>()
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("prehled")
+  const [exportOpen, setExportOpen] = useState(false)
 
   useEffect(() => {
     chrome.storage.local.get(["orders", "enrichment"], (data) => {
@@ -136,7 +138,7 @@ function AnalysisPage() {
       <header className="bg-white border-b border-warm sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-3">
           <img src={chrome.runtime.getURL("assets/icon128.png")} alt="Drobky" className="w-8 h-8 rounded-lg" />
-          <div>
+          <div className="flex-1">
             <h1 className="text-lg font-bold text-primary mb-[-8px]">
               Drobky
             </h1>
@@ -144,6 +146,16 @@ function AnalysisPage() {
               z Rohlíku
             </span>
           </div>
+          <button
+            onClick={() => setExportOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-secondary hover:text-primary border border-warm rounded-xl hover:bg-warm/50 transition-colors"
+            title="Export dat & AI analýza"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export
+          </button>
         </div>
 
         {/* Tab navigation */}
@@ -285,6 +297,13 @@ function AnalysisPage() {
           Žádné servery, žádné sledování, žádná AI. Jen vaše data, jen pro vás.
         </p>
       </footer>
+
+      <AiExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        orders={orders}
+        enrichment={enrichment}
+      />
     </div>
   )
 }

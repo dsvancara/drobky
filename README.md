@@ -18,6 +18,8 @@ Drobky fetches your delivered orders from Rohlik.cz and runs 23 analyses entirel
 
 **Orders** — full order list with expandable item details, product links, compensation badges
 
+**Export** — copy a ready-made prompt + data summary for ChatGPT/Claude analysis, or download raw JSON/CSV for your own tools
+
 ## Privacy
 
 Drobky runs entirely in your browser as a Chrome extension. It:
@@ -26,7 +28,7 @@ Drobky runs entirely in your browser as a Chrome extension. It:
 - Stores everything in `chrome.storage.local` on your machine
 - Makes zero requests to any third-party server
 - Has no analytics, no telemetry, no tracking
-- Contains no AI/LLM calls — all analysis is deterministic TypeScript
+- Contains no AI/LLM calls — all analysis is deterministic TypeScript (optional LLM export prepares data for you to paste into your own LLM)
 
 ## Install
 
