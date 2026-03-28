@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="28" fill="#faf8f5"/>
+  <rect x="8" y="8" width="112" height="112" rx="22" fill="#2f7d3b"/>
+  <!-- Bread crumb shape -->
+  <ellipse cx="64" cy="58" rx="30" ry="22" fill="#faf8f5" opacity="0.9"/>
+  <ellipse cx="54" cy="52" rx="6" ry="4" fill="#e8e2db" opacity="0.6"/>
+  <ellipse cx="72" cy="56" rx="5" ry="3" fill="#e8e2db" opacity="0.5"/>
+  <ellipse cx="60" cy="64" rx="4" ry="3" fill="#e8e2db" opacity="0.4"/>
+  <!-- Small crumbs -->
+  <circle cx="40" cy="78" r="4" fill="#faf8f5" opacity="0.7"/>
+  <circle cx="88" cy="74" r="3" fill="#faf8f5" opacity="0.6"/>
+  <circle cx="50" cy="84" r="2.5" fill="#faf8f5" opacity="0.5"/>
+  <!-- Text -->
+  <text x="64" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="18" fill="#faf8f5" opacity="0.9">drobky</text>
+</svg>

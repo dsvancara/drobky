@@ -1,0 +1,46 @@
+{
+  "name": "drobky",
+  "displayName": "Drobky z Rohlíku",
+  "version": "1.0.0",
+  "description": "Kam mizí vaše drobky? Analýza objednávek z Rohlik.cz — 100% lokálně ve vašem prohlížeči.",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "plasmo": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.3"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "^4.0.1",
+    "@types/chrome": "latest",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.2"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://www.rohlik.cz/*"
+    ],
+    "permissions": [
+      "storage"
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "assets/icon128.png"
+        ],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ]
+  }
+}
