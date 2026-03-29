@@ -50,6 +50,8 @@ import VarietyScoreChart from "../components/VarietyScore"
 import SeasonalProductsList from "../components/SeasonalProducts"
 import AiExportModal from "../components/AiExportModal"
 import ShareModal from "../components/ShareModal"
+import ShareCarousel from "../components/ShareCarousel"
+import { buildShareStats } from "../lib/share-stats"
 
 const TABS = [
   { id: "prehled", label: "Přehled" },
@@ -67,6 +69,7 @@ function AnalysisPage() {
   const [activeTab, setActiveTab] = useState("prehled")
   const [exportOpen, setExportOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
+  const [sharePreselect, setSharePreselect] = useState<string | null>(null)
 
   useEffect(() => {
     chrome.storage.local.get(["orders", "enrichment"], (data) => {
@@ -113,6 +116,29 @@ function AnalysisPage() {
   const savingsData = useMemo(() => savingsSuggestions(items), [items])
   const healthData = useMemo(() => (orders ? healthAnalysis(items, orders, enrichment) : []), [items, orders, enrichment])
 
+  // Share stats
+  const shareStatsInput = useMemo(() => ({
+    summaryData, dowData, impulseData, inflationData,
+    freshRatioData, varietyData, onSaleData
+  }), [summaryData, dowData, impulseData, inflationData, freshRatioData, varietyData, onSaleData])
+
+  const allShareStats = useMemo(() => buildShareStats(shareStatsInput), [shareStatsInput])
+
+  const openShare = (statId: string) => {
+    setSharePreselect(statId)
+    setShareOpen(true)
+  }
+
+  // Filter share stats by relevant IDs for each tab's carousel
+  const prehledShareCards = useMemo(() =>
+    allShareStats.filter(s => ["spend", "day", "orders"].includes(s.id)), [allShareStats])
+  const nakupyShareCards = useMemo(() =>
+    allShareStats.filter(s => ["staples"].includes(s.id)), [allShareStats])
+  const cenyShareCards = useMemo(() =>
+    allShareStats.filter(s => ["inflation", "sale"].includes(s.id)), [allShareStats])
+  const kategorieShareCards = useMemo(() =>
+    allShareStats.filter(s => ["fresh", "variety"].includes(s.id)), [allShareStats])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-cream flex items-center justify-center">
@@ -149,7 +175,7 @@ function AnalysisPage() {
             </span>
           </div>
           <button
-            onClick={() => setShareOpen(true)}
+            onClick={() => { setSharePreselect(null); setShareOpen(true) }}
             className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-secondary hover:text-primary border border-warm rounded-xl hover:bg-warm/50 transition-colors"
             title="Sdílet statistiku"
           >
@@ -231,6 +257,10 @@ function AnalysisPage() {
               )}
             </div>
 
+            {prehledShareCards.length > 0 && (
+              <ShareCarousel cards={prehledShareCards} onShare={openShare} />
+            )}
+
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <DayOfWeekChart data={dowData} />
               <BasketSizeChart data={basketData} />
@@ -245,6 +275,9 @@ function AnalysisPage() {
         {activeTab === "nakupy" && (
           <>
             <MonthlySpend data={monthlyData} />
+            {nakupyShareCards.length > 0 && (
+              <ShareCarousel cards={nakupyShareCards} onShare={openShare} />
+            )}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <TopItems data={topItemsData} />
               <FrequentItems data={frequentData} />
@@ -260,6 +293,9 @@ function AnalysisPage() {
         {activeTab === "ceny" && (
           <>
             <PriceVariations data={variationsData} />
+            {cenyShareCards.length > 0 && (
+              <ShareCarousel cards={cenyShareCards} onShare={openShare} />
+            )}
             <CurrentVsPaidTable data={currentVsPaidData} />
             {onSaleData.length > 0 && <OnSaleNowCard data={onSaleData} />}
             {inflationData.length > 0 && <PersonalInflationChart data={inflationData} />}
@@ -269,6 +305,9 @@ function AnalysisPage() {
         {activeTab === "kategorie" && (
           <>
             <CategoryChart data={categoryData} />
+            {kategorieShareCards.length > 0 && (
+              <ShareCarousel cards={kategorieShareCards} onShare={openShare} />
+            )}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <FreshRatioChart data={freshRatioData} />
               <VarietyScoreChart data={varietyData} />
@@ -331,7 +370,8 @@ function AnalysisPage() {
 
       <ShareModal
         open={shareOpen}
-        onClose={() => setShareOpen(false)}
+        onClose={() => { setShareOpen(false); setSharePreselect(null) }}
+        preselect={sharePreselect}
         summaryData={summaryData}
         dowData={dowData}
         impulseData={impulseData}

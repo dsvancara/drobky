@@ -1,171 +1,36 @@
 import { useState, useEffect, useRef, useMemo } from "react"
 import QRCode from "qrcode"
 import Modal from "./Modal"
-import type { Summary, DayOfWeekPattern, ImpulseStapleRatio, InflationMonth } from "../lib/analyzer"
-import type { FreshRatioMonth, VarietyMonth, OnSaleProduct } from "../lib/analyzer"
+import { buildShareStats, CWS_LINK } from "../lib/share-stats"
+import type { ShareStatsInput } from "../lib/share-stats"
 
-type Props = {
+type Props = ShareStatsInput & {
   open: boolean
   onClose: () => void
-  summaryData: Summary | null
-  dowData: DayOfWeekPattern[]
-  impulseData: ImpulseStapleRatio | null
-  inflationData: InflationMonth[]
-  freshRatioData: FreshRatioMonth[]
-  varietyData: VarietyMonth[]
-  onSaleData: OnSaleProduct[]
-}
-
-type ShareStat = {
-  id: string
-  emoji: string
-  label: string
-  text: string
-}
-
-const CWS_LINK = "https://dsvancara.github.io/drobky"
-
-const DAY_LOCATIVE: Record<string, string> = {
-  "Pondělí": "v pondělí",
-  "Úterý": "v úterý",
-  "Středa": "ve středu",
-  "Čtvrtek": "ve čtvrtek",
-  "Pátek": "v pátek",
-  "Sobota": "v sobotu",
-  "Neděle": "v neděli"
-}
-
-/** Czech plural: 1 → singular, 2-4 → few, 5+ → many */
-function plural(n: number, one: string, few: string, many: string): string {
-  if (n === 1) return `${n} ${one}`
-  if (n >= 2 && n <= 4) return `${n} ${few}`
-  return `${n} ${many}`
-}
-
-function pct(n: number): string {
-  return `${n} %`
-}
-
-function buildStats(props: Omit<Props, "open" | "onClose">): ShareStat[] {
-  const stats: ShareStat[] = []
-  const { summaryData, dowData, impulseData, inflationData, freshRatioData, varietyData, onSaleData } = props
-
-  if (!summaryData || summaryData.orderCount === 0) return stats
-
-  const orders = plural(summaryData.orderCount, "objednávku", "objednávky", "objednávek")
-  const products = plural(summaryData.uniqueItems, "různý produkt", "různé produkty", "různých produktů")
-
-  // Total spend
-  stats.push({
-    id: "spend",
-    emoji: "💸",
-    label: `Útrata: ${summaryData.totalSpend.toLocaleString("cs-CZ")} Kč`,
-    text: `Na Rohlíku jsem za ${orders} utratil/a ${summaryData.totalSpend.toLocaleString("cs-CZ")} Kč. To je ${summaryData.avgOrderSize.toLocaleString("cs-CZ")} Kč na objednávku. Kam mizí vaše drobky?`
-  })
-
-  // Favorite day
-  const topDay = [...dowData].sort((a, b) => b.orderCount - a.orderCount)[0]
-  if (topDay) {
-    stats.push({
-      id: "day",
-      emoji: "📅",
-      label: `Nejčastější den: ${topDay.dayName}`,
-      text: `Nejčastěji nakupuju na Rohlíku ${DAY_LOCATIVE[topDay.dayName] || topDay.dayName.toLowerCase()} — ${topDay.orderCount}x za ${orders}. Kdy nakupujete vy?`
-    })
-  }
-
-  // Product variety
-  stats.push({
-    id: "orders",
-    emoji: "🛒",
-    label: `${products}`,
-    text: `Za ${orders} na Rohlíku jsem vyzkoušel/a ${products}. Kolik máte vy?`
-  })
-
-  // Staples vs impulse
-  if (impulseData && impulseData.stapleCount > 0) {
-    const staples = plural(impulseData.stapleCount, "stálice", "stálice", "stálic")
-    const impulse = plural(impulseData.impulseCount, "impulzivní nákup", "impulzivní nákupy", "impulzivních nákupů")
-    stats.push({
-      id: "staples",
-      emoji: "🔁",
-      label: `${staples}, ${impulse}`,
-      text: `Mám ${staples}, co kupuju skoro pokaždé, a ${impulse}, co jsem koupil/a jen jednou. Jaký je váš poměr?`
-    })
-  }
-
-  // Fresh ratio
-  if (freshRatioData.length > 0) {
-    const latest = freshRatioData[freshRatioData.length - 1]
-    if (latest.freshPct > 0) {
-      stats.push({
-        id: "fresh",
-        emoji: "🥦",
-        label: `${pct(latest.freshPct)} čerstvých potravin`,
-        text: `${pct(latest.freshPct)} mého košíku na Rohlíku tvoří čerstvé potraviny. Jak jste na tom vy?`
-      })
-    }
-  }
-
-  // Personal inflation
-  if (inflationData.length > 0) {
-    const latest = inflationData[inflationData.length - 1]
-    if (latest.inflationPct !== 0) {
-      const dir = latest.inflationPct > 0 ? "+" : ""
-      stats.push({
-        id: "inflation",
-        emoji: "📈",
-        label: `Osobní inflace: ${dir}${pct(latest.inflationPct)}`,
-        text: `Moje osobní potravinová inflace na Rohlíku: ${dir}${pct(latest.inflationPct)}. Stejný košík by mě dnes stál jinak. Jaká je ta vaše?`
-      })
-    }
-  }
-
-  // New products
-  if (varietyData.length > 0) {
-    const latest = varietyData[varietyData.length - 1]
-    if (latest.newProducts > 0) {
-      const newProds = plural(latest.newProducts, "nový produkt", "nové produkty", "nových produktů")
-      stats.push({
-        id: "variety",
-        emoji: "✨",
-        label: `${newProds} tento měsíc`,
-        text: `Tento měsíc jsem na Rohlíku vyzkoušel/a ${newProds}, co jsem předtím nekupoval/a! Zkoušíte taky nové věci?`
-      })
-    }
-  }
-
-  // Products on sale
-  if (onSaleData.length > 0) {
-    const onSale = plural(onSaleData.length, "oblíbený produkt", "oblíbené produkty", "oblíbených produktů")
-    stats.push({
-      id: "sale",
-      emoji: "🏷️",
-      label: `${onSale} v akci`,
-      text: `${onSale} na Rohlíku je právě v akci. Drobky mi to hlídají automaticky.`
-    })
-  }
-
-  return stats
+  preselect?: string | null
 }
 
 export default function ShareModal(props: Props) {
-  const { open, onClose } = props
+  const { open, onClose, preselect } = props
   const [selected, setSelected] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const qrRef = useRef<HTMLCanvasElement>(null)
 
-  const stats = useMemo(() => buildStats(props), [
+  const stats = useMemo(() => buildShareStats(props), [
     props.summaryData, props.dowData, props.impulseData,
     props.inflationData, props.freshRatioData, props.varietyData, props.onSaleData
   ])
 
-  // Auto-select first stat
+  // Preselect or auto-select first stat
   useEffect(() => {
-    if (open && stats.length > 0 && !selected) {
-      setSelected(stats[0].id)
+    if (open) {
+      if (preselect && stats.some(s => s.id === preselect)) {
+        setSelected(preselect)
+      } else if (stats.length > 0 && !selected) {
+        setSelected(stats[0].id)
+      }
     }
-  }, [open, stats, selected])
+  }, [open, preselect, stats])
 
   // Reset copied state on selection change
   useEffect(() => {
@@ -210,7 +75,7 @@ export default function ShareModal(props: Props) {
       <div className="space-y-4">
         <p className="text-xs text-muted">Vyberte statistiku a sdílejte s přáteli</p>
 
-        {/* Stat picker — horizontal scrollable chips */}
+        {/* Stat picker */}
         <div className="flex flex-wrap gap-2">
           {stats.map(stat => (
             <button
