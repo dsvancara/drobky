@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OG Image — Drobky</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    .og {
+      width: 1200px;
+      height: 630px;
+      background: linear-gradient(135deg, #faf8f5 0%, #f3ede6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle decorative crumbs */
+    .crumb {
+      position: absolute;
+      border-radius: 50%;
+      background: #d4910a;
+      opacity: 0.07;
+    }
+    .crumb-1 { width: 180px; height: 180px; top: -40px; right: 80px; }
+    .crumb-2 { width: 120px; height: 120px; bottom: 30px; left: 60px; }
+    .crumb-3 { width: 80px; height: 80px; top: 60px; left: 180px; }
+    .crumb-4 { width: 60px; height: 60px; bottom: 120px; right: 200px; }
+    .crumb-5 { width: 40px; height: 40px; top: 200px; right: 100px; }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      z-index: 1;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title {
+      font-size: 56px;
+      font-weight: 800;
+      color: #3C2415;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+    }
+
+    .subtitle-inline {
+      font-size: 22px;
+      font-weight: 400;
+      color: #3C2415;
+      opacity: 0.5;
+    }
+
+    .tagline {
+      font-size: 28px;
+      font-weight: 600;
+      color: #3C2415;
+      opacity: 0.7;
+      letter-spacing: -0.3px;
+    }
+
+    .features {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pill {
+      background: white;
+      border: 1.5px solid #e8e2db;
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #5a4a3c;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-emoji {
+      font-size: 18px;
+    }
+
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: #d4910a;
+    }
+  </style>
+</head>
+<body style="background: #888; display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+  <div class="og">
+    <div class="crumb crumb-1"></div>
+    <div class="crumb crumb-2"></div>
+    <div class="crumb crumb-3"></div>
+    <div class="crumb crumb-4"></div>
+    <div class="crumb crumb-5"></div>
+
+    <div class="content">
+      <div class="logo-row">
+        <div class="icon">
+          <img src="../assets/icon128.png" alt="Drobky">
+        </div>
+        <div class="title-block">
+          <div class="title">Drobky</div>
+          <div class="subtitle-inline">z Rohlíku</div>
+        </div>
+      </div>
+
+      <div class="tagline">Kam mizí vaše drobky?</div>
+
+      <div class="features">
+        <div class="pill"><span class="pill-emoji">📊</span> Útrata a trendy</div>
+        <div class="pill"><span class="pill-emoji">🏷️</span> Ceny a akce</div>
+        <div class="pill"><span class="pill-emoji">🥦</span> Zdraví a složení</div>
+        <div class="pill"><span class="pill-emoji">💡</span> Tipy na úspory</div>
+        <div class="pill"><span class="pill-emoji">🔒</span> 100% lokálně</div>
+      </div>
+    </div>
+
+    <div class="bottom-bar"></div>
+  </div>
+</body>
+</html>
