@@ -194,7 +194,7 @@ function Popup() {
             <p className="text-xs text-amber-600 mt-1">
               Přihlaste se na{" "}
               <a
-                href="https://www.rohlik.cz/prihlaseni"
+                href="https://www.rohlik.cz/"
                 target="_blank"
                 rel="noreferrer"
                 className="underline font-medium">

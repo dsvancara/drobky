@@ -1,7 +1,7 @@
 {
   "name": "drobky",
   "displayName": "Drobky z Rohlíku",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Kam mizí vaše drobky? Analýza objednávek z Rohlik.cz — 100% lokálně ve vašem prohlížeči.",
   "scripts": {
     "dev": "plasmo dev",
