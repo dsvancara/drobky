@@ -36,7 +36,7 @@ Full privacy policy: [PRIVACY.md](PRIVACY.md)
 
 ### From Chrome Web Store
 
-*(Coming soon)*
+[Install Drobky z Rohlíku](https://chromewebstore.google.com/detail/drobky-z-rohl%C3%ADku/cikafdfcmdnoadnddnablelldpcicjmn)
 
 ### From source
 
